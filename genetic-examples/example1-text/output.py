@@ -37,5 +37,5 @@ class Output(object):
         print("Number of target string = "  + str(self.target_match))
         print("Number of average fitness = "  + str(self.average_fitness))
         print("Number of mutation rate = " + str(self.mutation_rate))
-        print("Number of mutation rate = " + self.best_near_target)
+        print("Number of best near target rate = " + self.best_near_target)
         print("--------------------        END         -----------------------")

@@ -1,7 +1,6 @@
 import random
 from generation import GenerationSelection
 
-
 class GeneticAlgorithm(object):
 
     def __init__(self, population_size, target, mutate, perfect_score, output):
@@ -23,23 +22,20 @@ class GeneticAlgorithm(object):
         return self.target_match()
 
     def create_new_mating_pool(self):
-        print(self.population)
-        normalized_fitness = [i/sum(self.fitness) for i in self.fitness]
+        #normalized_fitness = [i/sum(self.fitness) for i in self.fitness]
+        #print(normalized_fitness)
         for pindex, value in enumerate(self.population):
-            for fitness_value in normalized_fitness:
-                fit_value = fitness_value * 100
-                for findex in range(int(fit_value)):
-                    self.mating_pool.append(value)
+            fit_value = self.fitness[pindex] * 100
+            for findex in range(int(fit_value)):
+                self.mating_pool.append(value)
 
     def fitness_score(self):
         self.fitness = []
         for index, value in enumerate(self.population):
             score = 0
-            for t_character in self.target:
-                for p_character in value:
-                    if t_character == p_character:
-                        score = score + 1
-                    break
+            for tindex, t_character in enumerate(self.target):
+                if t_character == value[tindex]:
+                    score = score + 1
             score = score / len(self.target)
             self.fitness.append(score)
 
@@ -57,11 +53,11 @@ class GeneticAlgorithm(object):
     def target_match(self):
         self.counter += 1
         max_fitness = max(self.fitness)
-        if max_fitness == self.target:
+        if int(max_fitness) == self.perfect_score:
             return True
         for index, fit_value in enumerate(self.fitness):
             if fit_value == max_fitness:
-                self.output.set_average_fitness(max_fitness)
+                self.output.set_average_fitness(max_fitness/len(self.fitness))
                 self.output.set_best_near_target(self.population[index])
         self.output.set_iteration(self.counter)
         return False
